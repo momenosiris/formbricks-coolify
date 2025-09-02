@@ -18,7 +18,7 @@ services:
     restart: always
     # If 3000 is busy on your server, change to 3100:3000
     ports:
-      - "3000:3000"
+      - "3100:3100"
     environment:
       - WEBAPP_URL=${WEBAPP_URL:?}       # e.g. https://forms.yourdomain.com
       - NEXTAUTH_URL=${WEBAPP_URL:?}     # must match WEBAPP_URL
