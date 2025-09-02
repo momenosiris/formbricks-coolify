@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg17
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?}
+      - POSTGRES_DB=formbricks
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+  formbricks:
+    image: ghcr.io/formbricks/formbricks:latest
+    depends_on:
+      - postgres
+    restart: always
+    # If 3000 is busy on your server, change to 3100:3000
+    ports:
+      - "3000:3000"
+    environment:
+      - WEBAPP_URL=${WEBAPP_URL:?}       # e.g. https://forms.yourdomain.com
+      - NEXTAUTH_URL=${WEBAPP_URL:?}     # must match WEBAPP_URL
+      - DATABASE_URL=postgres://postgres:${POSTGRES_PASSWORD}@postgres:5432/formbricks
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET:?}
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY:?}
+      - CRON_SECRET=${CRON_SECRET:?}
+      - UPLOADS_DIR=/home/nextjs/apps/web/uploads/
+    volumes:
+      - uploads:/home/nextjs/apps/web/uploads/
+
+volumes:
+  postgres:
+  uploads:
