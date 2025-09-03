@@ -16,12 +16,11 @@ services:
     depends_on:
       - postgres
     restart: always
-    # Do NOT publish a host port; let Traefik route to the container.
     expose:
-      - "3000"
+      - "3000"                          # <— tells Traefik the correct container port
     environment:
-      - WEBAPP_URL=${WEBAPP_URL:?}       # e.g. https://formbricks.theosirislabs.com
-      - NEXTAUTH_URL=${WEBAPP_URL:?}     # must match WEBAPP_URL exactly
+      - WEBAPP_URL=${WEBAPP_URL:?}
+      - NEXTAUTH_URL=${WEBAPP_URL:?}
       - DATABASE_URL=postgresql://postgres:Momen12%24Osirislabs12%24151296%24@postgres:5432/formbricks
       - NEXTAUTH_SECRET=${NEXTAUTH_SECRET:?}
       - ENCRYPTION_KEY=${ENCRYPTION_KEY:?}
