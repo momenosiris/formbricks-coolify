@@ -33,3 +33,8 @@ services:
 volumes:
   postgres:
   uploads:
+
+services:
+  formbricks:
+    expose:
+      - "3000"
